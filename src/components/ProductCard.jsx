@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 import { addToCart } from "../redux/actions/products";
 
 const ProductCard = ({ product }) => {
-  let addToCartItems = [];
-  addToCartItems = useSelector((state) => state.addToCart.addToCartItems);
-  console.log("addToCartItems", addToCartItems);
+ 
   const dispatch = useDispatch();
   const addToCartAction = (item) => {
     dispatch(addToCart(item));
