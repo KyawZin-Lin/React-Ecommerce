@@ -9,10 +9,8 @@ export const addToCartReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.ADD_TO_CART:
       return {
-        ...initialState,
-        addToCartItems: [
-          ...state.addToCartItems,payload
-        ],
+        ...state,
+        addToCartItems: [...state.addToCartItems, payload],
       };
     default:
       return state;
@@ -21,7 +19,7 @@ export const addToCartReducer = (state = initialState, { type, payload }) => {
 export const productsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.FETCH_PRODUCTS:
-      return { ...initialState, products: payload };
+      return { ...state, products: payload };
     default:
       return state;
   }
