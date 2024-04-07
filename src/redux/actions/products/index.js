@@ -14,3 +14,10 @@ export const addToCart=(addToCartItems)=>{
         payload: addToCartItems
     }
 }
+
+export const removeCartItem =(item)=>{
+    return {
+        type:ActionTypes.REMOVE_CART_ITEM,
+        payload:item
+    }
+}

@@ -1,10 +1,15 @@
 import { Table } from "flowbite-react";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeCartItem } from "../redux/actions/products/index";
 
 const Cart = () => {
   let cartItems = useSelector((state) => state.addToCart.addToCartItems);
 
+  const dispatch = useDispatch();
+  const removeCartItemAction = (item) => {
+    dispatch(removeCartItem(item));
+  };
   return (
     <div className="overflow-x-auto">
       <Table hoverable>
@@ -19,20 +24,30 @@ const Cart = () => {
         </Table.Head>
         <Table.Body className="divide-y">
           {cartItems.map((item) => (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Row
+              key={item.id}
+              className="bg-white dark:border-gray-700 dark:bg-gray-800"
+            >
               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {item.name}
+                {item.id}
               </Table.Cell>
-              <Table.Cell> <img className="w-24" src={item.image} alt="product_image" /> </Table.Cell>
+              <Table.Cell>
+                {" "}
+                <img
+                  className="w-24"
+                  src={item.image}
+                  alt="product_image"
+                />{" "}
+              </Table.Cell>
               <Table.Cell>{item.category.name}</Table.Cell>
               <Table.Cell>{item.price}</Table.Cell>
               <Table.Cell>
-                <a
-                  href="#"
+                <button
+                  onClick={() => removeCartItemAction(item)}
                   className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                 >
                   Edit
-                </a>
+                </button>
               </Table.Cell>
             </Table.Row>
           ))}
