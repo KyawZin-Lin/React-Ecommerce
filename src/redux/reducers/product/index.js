@@ -8,17 +8,34 @@ const initialState = {
 export const addToCartReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.ADD_TO_CART:
-      return {
-        ...state,
-        addToCartItems: [...state.addToCartItems, payload],
-      };
+      const existingItem = state.addToCartItems.find(
+        (item) => item.id == payload.id
+      );
+      console.log(existingItem);
+
+      if (existingItem) {
+        return {
+          ...state,
+          addToCartItems: state.addToCartItems.map((item) =>
+            item.id === payload.id ? { ...item, qty: parseInt(item.qty) + 1 } : item
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          addToCartItems: [...state.addToCartItems, {...payload, qty:1}],
+        };
+      }
+
     case ActionTypes.REMOVE_CART_ITEM:
       console.log(state);
       return {
         ...state,
-        addToCartItems:[...state.addToCartItems.filter((item)=>item.id!= payload.id)]
-      }
-   
+        addToCartItems: [
+          ...state.addToCartItems.filter((item) => item.id != payload.id),
+        ],
+      };
+
     default:
       return state;
   }

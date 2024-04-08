@@ -21,8 +21,8 @@ const Home = () => {
   };
   const getProducts = async () => {
     try {
-      const res = await api.get("/products");
-      dispatch(fetchProducts(res.data)) // Assuming this dispatches an action
+      const res = await api.get("/get/products");
+      dispatch(fetchProducts(res.data.data)) // Assuming this dispatches an action
     } catch (error) {
       console.error("Error fetching sliders:", error);
       // Handle error appropriately, e.g., display an error message to the user
@@ -30,7 +30,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // getSliders();
+    getSliders();
     getProducts();
   }, []);
   return (

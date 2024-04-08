@@ -2,9 +2,11 @@ import { Navbar } from "flowbite-react";
 import React from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const NavBar = () => {
-  const navigate = useNavigate();
+  let cartItems=[];
+  cartItems = useSelector((state) => state.addToCart.addToCartItems);
   return (
     <Navbar fluid rounded>
       <Navbar.Brand href="https://flowbite-react.com">
@@ -14,18 +16,15 @@ const NavBar = () => {
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
-        <Navbar.Link  active>
-          <Link to="/home">Home</Link>
-          
-        </Navbar.Link>
+        <Link to="/home">Home</Link>
+
         <Navbar.Link href="/about">About</Navbar.Link>
         <Navbar.Link href="/service">Services</Navbar.Link>
         <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link>
-          <Link to="/cart">
-            <i className="fa-solid fa-cart-shopping me-2"></i>Cart
-          </Link>
-        </Navbar.Link>
+
+        <Link to="/cart">
+          <i className="fa-solid fa-cart-shopping me-2"></i>Cart {cartItems.length}
+        </Link>
       </Navbar.Collapse>
     </Navbar>
   );
