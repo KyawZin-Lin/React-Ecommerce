@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import { Route, Routes } from "react-router";
 import Cart from './components/Cart';
 import Register from "./components/Register";
+import Login from "./components/Login";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,6 +21,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+
 
       </Routes>
     </div>

@@ -14,7 +14,6 @@ import { api } from "../api";
 const Cart = () => {
   let cartItems = useSelector((state) => state.addToCart.addToCartItems);
   let authToken = useSelector((state)=> state.getToken.authToken);
-  console.log(authToken);
 
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ const Cart = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(cartItems, formData);
     const combinedData = {
       cartItemsData: cartItems,
       formData: formData,
