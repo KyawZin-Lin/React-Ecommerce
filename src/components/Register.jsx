@@ -1,25 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Label, Select, TextInput, Textarea } from "flowbite-react";
 import { api } from "../api";
 import { useDispatch } from "react-redux";
 import { getAuthToken } from "../redux/actions/auth";
+import { fetchTownships } from "../redux/actions/townships";
+import { useSelector } from "react-redux";
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
-    const dispatch = useDispatch();
+
+  const fetchTownshipHandler = async () => {
+    const res = await api.get("/get/townships");
+    dispatch(fetchTownships(res.data.data));
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(formData);
-  
     const res = await api.post("/register", JSON.stringify(formData), {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log(res.data.data.token);
     dispatch(getAuthToken(res.data.data.token));
-
   };
+
+  useEffect(() => {
+    fetchTownshipHandler();
+  }, []);
+
+  let townships = [];
+  townships = useSelector((state) => state.townships.townships);
   return (
     <div className="max-w-xxl">
       <form
@@ -76,11 +87,13 @@ const Register = () => {
                 })
               }
             >
-              <option value="">Select your country</option>
-              <option value="1">United States</option>
-              <option value="2">Canada</option>
+              <option value="">Select your Township</option>
+              {townships.map((township) => (
+                <option key={township.id} value={township.id}>{township.name}</option>
+              ))}
+              {/* <option value="2">Canada</option>
               <option value="3">France</option>
-              <option value="4">Germany</option>
+              <option value="4">Germany</option> */}
             </Select>
           </div>
         </div>

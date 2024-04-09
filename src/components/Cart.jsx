@@ -10,30 +10,39 @@ import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeCartItem } from "../redux/actions/products/index";
 import { api } from "../api";
+import { useNavigate } from "react-router";
 
 const Cart = () => {
   let cartItems = useSelector((state) => state.addToCart.addToCartItems);
-  let authToken = useSelector((state)=> state.getToken.authToken);
+  // let authToken = useSelector((state) => state.getToken.authToken);
+  const getAuthTokenFromLocalStorage = () => {
+    return localStorage.getItem("authToken");
+  };
 
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const removeCartItemAction = (item) => {
     dispatch(removeCartItem(item));
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const combinedData = {
-      cartItemsData: cartItems,
-      formData: formData,
-    };
-    const res = await api.post("/sale/store", JSON.stringify(combinedData), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
-    console.log(res.data);
+    const authToken = getAuthTokenFromLocalStorage();
+    console.log(authToken);
+    if (authToken != null) {
+      console.log(authToken);
+      const res = await api.post("/sale/store", cartItems, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      console.log(res.data);
+      // console.log(authToken);
+    } else {
+      navigate("/login");
+    }
   };
 
   const [checkOutStatus, setCheckOutStatus] = useState(false);
@@ -234,9 +243,7 @@ const Cart = () => {
           </form>
         </div>
       ) : (
-        <div>
-          <h1>false</h1>
-        </div>
+        <div></div>
       )}
     </div>
   );
