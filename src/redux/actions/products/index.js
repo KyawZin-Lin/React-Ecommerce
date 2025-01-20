@@ -8,12 +8,10 @@ export const fetchProducts=(products)=>{
     }
 }
 
-export const addToCart=(addToCartItems)=>{
-    return {
-        type:ActionTypes.ADD_TO_CART,
-        payload: addToCartItems
-    }
-}
+export const addToCart = (product, variant = null) => ({
+    type: ActionTypes.ADD_TO_CART,
+    payload: { product, variant },
+  });
 
 export const removeCartItem =(item)=>{
     return {

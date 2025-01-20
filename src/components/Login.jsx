@@ -30,15 +30,15 @@ const Login = () => {
       >
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="email1" value="Your email" />
+            <Label htmlFor="phone" value="Your phone" />
           </div>
           <TextInput
-            id="email1"
-            type="email"
-            placeholder="name@flowbite.com"
+            id="phone"
+            type="number"
+            placeholder="09****"
             required
             onChange={(e) => {
-              setFormData({ ...formData, email: e.target.value });
+              setFormData({ ...formData, phone: e.target.value });
             }}
           />
         </div>

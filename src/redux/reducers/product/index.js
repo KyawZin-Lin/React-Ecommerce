@@ -7,25 +7,49 @@ const initialState = {
 
 export const addToCartReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case ActionTypes.ADD_TO_CART:
+    case ActionTypes.ADD_TO_CART: {
+      const { product, variant } = payload;
+
+      // Generate a unique key for the cart item
+      const cartItemKey = variant
+        ? `${product.id}-${variant.id}` // Product with variant
+        : `${product.id}`; // Product without variant
+
+      // Check if the item already exists in the cart
       const existingItem = state.addToCartItems.find(
-        (item) => item.id == payload.id
+        (item) => item.cartItemKey === cartItemKey
       );
-      console.log(existingItem);
 
       if (existingItem) {
+        // If the item exists, increment its quantity
         return {
           ...state,
           addToCartItems: state.addToCartItems.map((item) =>
-            item.id === payload.id ? { ...item, qty: parseInt(item.qty) + 1 } : item
+            item.cartItemKey === cartItemKey
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
           ),
         };
       } else {
+        // If the item doesn't exist, add it to the cart
+        const newCartItem = {
+          cartItemKey, // Unique key for the cart item
+          name: variant
+            ? `${product.name} - ${variant.variant} (${variant.variant_options})` // Product with variant
+            : product.name, // Product without variant
+          quantity: 1,
+          price: variant ? variant.selling_price : product.selling_price,
+          image: variant ? variant.image : product.image,
+          product_id: product.id,
+          variant_id: variant ? variant.id : null,
+        };
+        console.log(newCartItem);
         return {
           ...state,
-          addToCartItems: [...state.addToCartItems, {...payload, qty:1}],
+          addToCartItems: [...state.addToCartItems, newCartItem],
         };
       }
+    }
 
     case ActionTypes.REMOVE_CART_ITEM:
       console.log(state);

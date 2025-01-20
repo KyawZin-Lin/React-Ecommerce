@@ -3,12 +3,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart } from "../redux/actions/products";
+import ProductVariantCard from "./ProductVariantCard";
 
 const ProductCard = ({ product }) => {
- 
   const dispatch = useDispatch();
-  const addToCartAction = (item) => {
-    dispatch(addToCart(item));
+
+  const addToCartAction = (product, variant = null) => {
+    dispatch(addToCart(product, variant));
   };
 
   return (
@@ -36,15 +37,20 @@ const ProductCard = ({ product }) => {
         </button>
 
         <button
-          onClick={() => addToCartAction(product)}
+          onClick={() => addToCartAction(product)} // Add product without variant
           className="bg-blue-500 hover:bg-blue-700 text-black hover:text-white font-bold py-2 px-4 rounded-full"
         >
           <i className="fa-solid fa-cart-shopping me-2"></i>
           <span> Add to Cart</span>
         </button>
       </div>
+
+      <ProductVariantCard
+        variants={product.variants}
+        addToCartAction={addToCartAction}
+        product={product}
+      />
     </Card>
   );
 };
-
 export default ProductCard;
